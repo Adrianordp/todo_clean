@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from ...layer0.entity.task import Task
 
 
@@ -8,7 +9,7 @@ class ITaskRepo(ABC):
         pass
 
     @abstractmethod
-    def get_task_by_id(self) -> Task:
+    def get_task_by_id(self, _id: int) -> Task:
         pass
 
     @abstractmethod
@@ -20,5 +21,5 @@ class ITaskRepo(ABC):
         pass
 
     @abstractmethod
-    def delete_task(self, id_: int) -> bool:
+    def delete_task_by_id(self, id_: int) -> bool:
         pass
