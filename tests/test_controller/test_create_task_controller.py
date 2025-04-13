@@ -6,7 +6,9 @@ from src.todo_clean.layer1.usecase.create_task import (
     ICreateTask,
     ICreateTaskPresenter,
 )
-from src.todo_clean.layer2.controller.create_task_controller import CreateTaskController
+from src.todo_clean.layer2.controller.create_task_controller import (
+    CreateTaskController,
+)
 
 
 class TaskRepoDummy(ITaskRepo):
@@ -53,4 +55,7 @@ def test_controller_create_task():
     controller.handle(description)
 
     assert usecase_spy.execute_called == True
-    assert usecase_spy.execute_called_with["input_data"].description == description
+    assert (
+        usecase_spy.execute_called_with["input_data"].description
+        == description
+    )

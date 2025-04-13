@@ -1,6 +1,9 @@
 from src.todo_clean.layer0.entity.task import ITask, Task
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
-from src.todo_clean.layer1.usecase.get_tasks import GetTasks, GetTasksOutputData
+from src.todo_clean.layer1.usecase.get_tasks import (
+    GetTasks,
+    GetTasksOutputData,
+)
 
 
 def test_get_tasks():

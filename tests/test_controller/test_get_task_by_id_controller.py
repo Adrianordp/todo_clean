@@ -33,7 +33,9 @@ class GetTaskSpy(IGetTask):
     def __init__(self, task_repo: ITaskRepo):
         pass
 
-    def execute(self, input_data: GetTaskByIdInputData) -> GetTaskByIdOutputData:
+    def execute(
+        self, input_data: GetTaskByIdInputData
+    ) -> GetTaskByIdOutputData:
         return GetTaskByIdOutputData(Task(input_data.id_, ""))
 
 
