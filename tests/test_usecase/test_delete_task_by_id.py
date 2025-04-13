@@ -1,10 +1,10 @@
 from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.delete_task_by_id import (
-    DeleteTask,
+    DeleteTaskById,
     DeleteTaskInputData,
     DeleteTaskOutputData,
-    IDeleteTaskPresenter,
+    IDeleteTaskByIdPresenter,
 )
 
 
@@ -30,7 +30,7 @@ def test_usecase_delete_task_by_id():
             self.delete_task_by_id_called = True
             self.delete_task_by_id_called_with["id_"] = id_
 
-    class DeleteTaskPresenterSpy(IDeleteTaskPresenter):
+    class DeleteTaskPresenterSpy(IDeleteTaskByIdPresenter):
         format_called = False
         format_called_with = {}
 
@@ -42,7 +42,7 @@ def test_usecase_delete_task_by_id():
     presenter_spy = DeleteTaskPresenterSpy()
     input_data = DeleteTaskInputData(id_)
     task_repo_spy = TaskRepoSpy()
-    usecase = DeleteTask(task_repo_spy, presenter_spy)
+    usecase = DeleteTaskById(task_repo_spy, presenter_spy)
     usecase.execute(input_data)
 
     assert task_repo_spy.delete_task_by_id_called
