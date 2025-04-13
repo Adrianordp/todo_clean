@@ -23,11 +23,7 @@ class ICreateTaskPresenter(ABC):
 
 class ICreateTask(ABC):
     @abstractmethod
-    def __init__(
-        self,
-        task_repo: ITaskRepo,
-        presenter: ICreateTaskPresenter,
-    ):
+    def __init__(self, task_repo: ITaskRepo, presenter: ICreateTaskPresenter):
         pass
 
     @abstractmethod
