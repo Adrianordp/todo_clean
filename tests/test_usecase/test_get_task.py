@@ -5,7 +5,7 @@ from src.todo_clean.layer1.usecase.get_task import GetTaskById, GetTaskByIdInput
 
 def test_get_task():
 
-    class SpyTaskRepo(ITaskRepo):
+    class TaskRepoSpy(ITaskRepo):
         id_: int
         task: Task
 
@@ -26,10 +26,10 @@ def test_get_task():
         def delete_task_by_id(self, id_: int) -> bool:
             pass
 
-    task_repo = SpyTaskRepo()
+    task_repo_spy = TaskRepoSpy()
     target_id = 1
     input_data = GetTaskByIdInputData(target_id)
-    usecase = GetTaskById(input_data, task_repo)
-    output_data = usecase.execute()
+    usecase = GetTaskById(task_repo_spy)
+    output_data = usecase.execute(input_data)
     assert output_data.task.id_ == target_id
-    assert output_data.task == task_repo.task
+    assert output_data.task == task_repo_spy.task

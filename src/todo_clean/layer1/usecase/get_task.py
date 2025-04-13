@@ -17,19 +17,18 @@ class GetTaskByIdOutputData:
 
 class IGetTask(ABC):
     @abstractmethod
-    def __init__(self, data: GetTaskByIdInputData, task_repo: ITaskRepo):
+    def __init__(self, task_repo: ITaskRepo):
         pass
 
     @abstractmethod
-    def execute(self) -> GetTaskByIdOutputData:
+    def execute(self, input_data: GetTaskByIdInputData) -> GetTaskByIdOutputData:
         pass
 
 
 class GetTaskById(IGetTask):
-    def __init__(self, input_data: GetTaskByIdInputData, task_repo: ITaskRepo):
-        self.input_data = input_data
+    def __init__(self, task_repo: ITaskRepo):
         self.task_repo = task_repo
 
-    def execute(self) -> GetTaskByIdOutputData:
-        task = self.task_repo.get_task_by_id(self.input_data.id_)
+    def execute(self, input_data: GetTaskByIdInputData) -> GetTaskByIdOutputData:
+        task = self.task_repo.get_task_by_id(input_data.id_)
         return GetTaskByIdOutputData(task)
