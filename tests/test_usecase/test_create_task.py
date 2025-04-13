@@ -49,7 +49,10 @@ def test_usecase_create_new_task():
     usecase.execute(input_data)
 
     assert task_repo_spy.new_task_called == True
-    assert task_repo_spy.new_task_called_with["description"] is not None
+    assert task_repo_spy.new_task_called_with["description"] == description
 
     assert presenter_spy.format_called == True
     assert presenter_spy.format_called_with["output_data"] is not None
+    assert isinstance(
+        presenter_spy.format_called_with["output_data"], CreateTaskOutputData
+    )
