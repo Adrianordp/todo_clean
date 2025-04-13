@@ -4,7 +4,7 @@ from src.todo_clean.layer0.entity.task import Task
 from src.todo_clean.layer1.usecase.create_task import CreateTaskInputData, ICreateTask
 
 
-class IController(ABC):
+class ICreateTaskController(ABC):
     @abstractmethod
     def __init__(self, usecase: ICreateTask):
         pass
@@ -17,7 +17,7 @@ class IController(ABC):
         pass
 
 
-class CreateTaskController(IController):
+class CreateTaskController(ICreateTaskController):
     def __init__(self, usecase: ICreateTask):
         self.usecase = usecase
 
