@@ -12,7 +12,7 @@ def test_usecase_delete_task_by_id():
     class TaskRepoSpy(ITaskRepo):
         id_: int
 
-        def new_task(self, description: str) -> Task:
+        def create_task(self, description: str) -> Task:
             pass
 
         def get_task_by_id(self, id_: int) -> Task:

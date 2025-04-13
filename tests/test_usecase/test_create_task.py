@@ -14,7 +14,7 @@ def test_usecase_create_new_task():
         new_task_called = False
         new_task_called_with = {}
 
-        def new_task(self, description: str) -> Task:
+        def create_task(self, description: str) -> Task:
             self.new_task_called = True
             self.new_task_called_with = description
             return Task(1, description)

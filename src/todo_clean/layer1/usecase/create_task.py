@@ -44,6 +44,6 @@ class CreateTask(ICreateTask):
         self.presenter = presenter
 
     def execute(self, input_data: CreateTaskInputData) -> None:
-        task = self.task_repo.new_task(input_data.description)
+        task = self.task_repo.create_task(input_data.description)
         output_data = CreateTaskOutputData(task)
         self.presenter.format(output_data)

@@ -5,7 +5,7 @@ from ...layer0.entity.task import Task
 
 class ITaskRepo(ABC):
     @abstractmethod
-    def new_task(self, description: str) -> Task:
+    def create_task(self, description: str) -> Task:
         pass
 
     @abstractmethod

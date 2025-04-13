@@ -10,7 +10,7 @@ def test_get_tasks():
         task2 = Task(2, "Random Task")
         task_list = [task1, task2]
 
-        def new_task(self, description: str) -> Task:
+        def create_task(self, description: str) -> Task:
             pass
 
         def get_task_by_id(self, id_: int) -> Task:

@@ -13,7 +13,7 @@ def test_get_task():
         id_: int
         task: Task
 
-        def new_task(self, description: str) -> Task:
+        def create_task(self, description: str) -> Task:
             pass
 
         def get_task_by_id(self, id_: int) -> Task:

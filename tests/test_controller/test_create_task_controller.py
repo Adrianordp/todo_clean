@@ -9,7 +9,7 @@ from src.todo_clean.layer2.controller.create_task_controller import CreateTaskCo
 
 
 class TaskRepoDummy(ITaskRepo):
-    def new_task(self, description: str) -> Task:
+    def create_task(self, description: str) -> Task:
         pass
 
     def get_task_by_id(self, _id: int) -> Task:
