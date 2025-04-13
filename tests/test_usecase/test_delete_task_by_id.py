@@ -1,11 +1,11 @@
 from src.todo_clean.layer0.entity.task import Task
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
-from src.todo_clean.layer1.usecase.delete_task import DeleteTask
+from src.todo_clean.layer1.usecase.delete_task_by_id import DeleteTask
 
 
 def test_usecase_delete_task_by_id():
 
-    class SpyTaskRepo(ITaskRepo):
+    class TaskRepoSpy(ITaskRepo):
         id_: int
 
         def new_task(self, description: str) -> Task:
@@ -25,7 +25,7 @@ def test_usecase_delete_task_by_id():
             return True
 
     task = Task(1, "Random Task")
-    task_repo = SpyTaskRepo()
+    task_repo = TaskRepoSpy()
     usecase = DeleteTask(task, task_repo)
     assert usecase.execute()
     assert task_repo.id_ == task.id_
