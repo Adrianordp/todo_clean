@@ -4,6 +4,7 @@ from src.todo_clean.layer1.usecase.create_task import (
     CreateTaskInputData,
     CreateTaskOutputData,
     ICreateTask,
+    ICreateTaskPresenter,
 )
 from src.todo_clean.layer2.controller.create_task_controller import CreateTaskController
 
@@ -26,31 +27,30 @@ class TaskRepoDummy(ITaskRepo):
 
 
 class CreateNewTaskSpy(ICreateTask):
-    init_called = False
-    init_called_with = {}
     execute_called = False
     execute_called_with = {}
 
-    def __init__(self, task_repo: ITaskRepo):
-        self.init_called = True
-        self.init_called_with["task_repo"] = task_repo
+    def __init__(self, task_repo: ITaskRepo, presenter: ICreateTaskPresenter):
+        pass
 
-    def execute(self, input_data: CreateTaskInputData) -> CreateTaskOutputData:
+    def execute(self, input_data: CreateTaskInputData) -> None:
         self.execute_called = True
         self.execute_called_with["input_data"] = input_data
-        return CreateTaskOutputData(Task(1, input_data.description))
+
+
+class PresenterDummy(ICreateTaskPresenter):
+    def format(self, output_data: CreateTaskOutputData) -> dict:
+        pass
 
 
 def test_controller_create_task():
-    task_repo_dummy = TaskRepoDummy()
     description = "Random task description"
+    task_repo_dummy = TaskRepoDummy()
+    presenter_dummy = PresenterDummy()
 
-    usecase_spy = CreateNewTaskSpy(task_repo_dummy)
+    usecase_spy = CreateNewTaskSpy(task_repo_dummy, presenter_dummy)
     controller = CreateTaskController(usecase_spy)
     controller.handle(description)
-
-    assert usecase_spy.init_called == True
-    assert usecase_spy.init_called_with["task_repo"] == task_repo_dummy
 
     assert usecase_spy.execute_called == True
     assert usecase_spy.execute_called_with["input_data"].description == description
