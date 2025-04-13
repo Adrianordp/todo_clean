@@ -32,11 +32,7 @@ class ICreateTask(ABC):
 
 
 class CreateTask(ICreateTask):
-    def __init__(
-        self,
-        task_repo: ITaskRepo,
-        presenter: ICreateTaskPresenter,
-    ):
+    def __init__(self, task_repo: ITaskRepo, presenter: ICreateTaskPresenter):
         self.task_repo = task_repo
         self.presenter = presenter
 
