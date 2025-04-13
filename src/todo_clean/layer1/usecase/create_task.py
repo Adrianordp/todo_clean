@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from ...layer0.entity.task import Task
+from ...layer0.entity.task import ITask
 from ..repository.i_task_repo import ITaskRepo
 
 
@@ -12,7 +12,7 @@ class CreateTaskInputData:
 
 @dataclass
 class CreateTaskOutputData:
-    task: Task
+    task: ITask
 
 
 class ICreateTaskPresenter(ABC):

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.todo_clean.layer0.entity.task import Task
+from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.usecase.create_task import CreateTaskInputData, ICreateTask
 
 

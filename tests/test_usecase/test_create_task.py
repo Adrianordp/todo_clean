@@ -1,4 +1,4 @@
-from src.todo_clean.layer0.entity.task import Task
+from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.create_task import (
     CreateTask,
@@ -14,17 +14,17 @@ def test_usecase_create_new_task():
         new_task_called = False
         new_task_called_with = {}
 
-        def create_task(self, description: str) -> Task:
+        def create_task(self, description: str) -> ITask:
             self.new_task_called = True
             self.new_task_called_with["description"] = description
 
-        def get_task_by_id(self, id_: int) -> Task:
+        def get_task_by_id(self, id_: int) -> ITask:
             pass
 
-        def get_tasks(self) -> list[Task]:
+        def get_tasks(self) -> list[ITask]:
             pass
 
-        def edit_task_by_id(self, id_: int) -> Task:
+        def edit_task_by_id(self, id_: int) -> ITask:
             pass
 
         def delete_task_by_id(self, id_: int) -> bool:
@@ -38,7 +38,7 @@ def test_usecase_create_new_task():
             self.format_called = True
             self.format_called_with["output_data"] = output_data
 
-    description = "Random Task"
+    description = "Random ITask"
 
     input_data = CreateTaskInputData(description)
 

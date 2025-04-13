@@ -1,4 +1,4 @@
-from src.todo_clean.layer0.entity.task import Task
+from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.create_task import (
     CreateTaskInputData,
@@ -10,16 +10,16 @@ from src.todo_clean.layer2.controller.create_task_controller import CreateTaskCo
 
 
 class TaskRepoDummy(ITaskRepo):
-    def create_task(self, description: str) -> Task:
+    def create_task(self, description: str) -> ITask:
         pass
 
-    def get_task_by_id(self, _id: int) -> Task:
+    def get_task_by_id(self, _id: int) -> ITask:
         pass
 
-    def get_tasks(self) -> list[Task]:
+    def get_tasks(self) -> list[ITask]:
         pass
 
-    def edit_task_by_id(self, id_: int) -> Task:
+    def edit_task_by_id(self, id_: int) -> ITask:
         pass
 
     def delete_task_by_id(self, id_: int) -> bool:

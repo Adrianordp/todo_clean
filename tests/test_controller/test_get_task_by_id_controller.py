@@ -1,6 +1,6 @@
 from pytest import mark
 
-from src.todo_clean.layer0.entity.task import Task
+from src.todo_clean.layer0.entity.task import ITask, Task
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.get_task_by_id import (
     GetTaskByIdInputData,
@@ -13,16 +13,16 @@ from src.todo_clean.layer2.controller.get_task_by_id_controller import (
 
 
 class TaskRepoMock(ITaskRepo):
-    def create_task(self, description: str) -> Task:
+    def create_task(self, description: str) -> ITask:
         pass
 
-    def get_task_by_id(self, _id: int) -> Task:
+    def get_task_by_id(self, _id: int) -> ITask:
         pass
 
-    def get_tasks(self) -> list[Task]:
+    def get_tasks(self) -> list[ITask]:
         pass
 
-    def edit_task_by_id(self, id_: int) -> Task:
+    def edit_task_by_id(self, id_: int) -> ITask:
         pass
 
     def delete_task_by_id(self, id_: int) -> bool:
@@ -47,5 +47,5 @@ def test_controller_get_task_by_id():
 
     task = controller.handle(id_)
 
-    assert isinstance(task, Task)
+    assert isinstance(task, ITask)
     assert task.id_ == id_

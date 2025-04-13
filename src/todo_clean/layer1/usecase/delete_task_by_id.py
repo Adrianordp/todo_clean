@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from ...layer0.entity.task import Task
+from ...layer0.entity.task import ITask
 from ..repository.i_task_repo import ITaskRepo
 
 

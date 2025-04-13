@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.todo_clean.layer0.entity.task import Task
+from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.usecase.get_task_by_id import GetTaskByIdInputData, IGetTask
 
 
@@ -13,7 +13,7 @@ class IGetTaskByIdController(ABC):
     def handle(
         self,
         id_: int,
-    ) -> Task:
+    ) -> ITask:
         pass
 
 
@@ -24,7 +24,7 @@ class GetTaskByIdController(IGetTaskByIdController):
     def handle(
         self,
         id_: int,
-    ) -> Task:
+    ) -> ITask:
         input_data = GetTaskByIdInputData(id_)
         output_data = self.usecase.execute(input_data)
         return output_data.task
