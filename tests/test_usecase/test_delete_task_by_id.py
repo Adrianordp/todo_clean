@@ -4,13 +4,15 @@ from src.todo_clean.layer1.usecase.delete_task_by_id import (
     DeleteTask,
     DeleteTaskInputData,
     DeleteTaskOutputData,
+    IDeleteTaskPresenter,
 )
 
 
 def test_usecase_delete_task_by_id():
 
     class TaskRepoSpy(ITaskRepo):
-        id_: int
+        delete_task_by_id_called = False
+        delete_task_by_id_called_with = {}
 
         def create_task(self, description: str) -> ITask:
             pass
@@ -25,14 +27,29 @@ def test_usecase_delete_task_by_id():
             pass
 
         def delete_task_by_id(self, id_: int) -> bool:
-            self.id_ = id_
-            return True
+            self.delete_task_by_id_called = True
+            self.delete_task_by_id_called_with["id_"] = id_
+
+    class DeleteTaskPresenterSpy(IDeleteTaskPresenter):
+        format_called = False
+        format_called_with = {}
+
+        def format(self, output_data: DeleteTaskOutputData) -> None:
+            self.format_called = True
+            self.format_called_with["output_data"] = output_data
 
     id_ = 1
+    presenter_spy = DeleteTaskPresenterSpy()
     input_data = DeleteTaskInputData(id_)
-    task_repo = TaskRepoSpy()
-    usecase = DeleteTask(task_repo)
-    output_data = usecase.execute(input_data)
+    task_repo_spy = TaskRepoSpy()
+    usecase = DeleteTask(task_repo_spy, presenter_spy)
+    usecase.execute(input_data)
 
-    assert isinstance(output_data, DeleteTaskOutputData)
-    assert output_data.success == True
+    assert task_repo_spy.delete_task_by_id_called
+    assert task_repo_spy.delete_task_by_id_called_with["id_"] == id_
+
+    assert presenter_spy.format_called == True
+    assert presenter_spy.format_called_with["output_data"] is not None
+    assert isinstance(
+        presenter_spy.format_called_with["output_data"], DeleteTaskOutputData
+    )
