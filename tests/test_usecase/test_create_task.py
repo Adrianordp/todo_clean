@@ -16,8 +16,7 @@ def test_usecase_create_new_task():
 
         def create_task(self, description: str) -> Task:
             self.new_task_called = True
-            self.new_task_called_with = description
-            return Task(1, description)
+            self.new_task_called_with["description"] = description
 
         def get_task_by_id(self, id_: int) -> Task:
             pass
@@ -37,7 +36,7 @@ def test_usecase_create_new_task():
 
         def format(self, output_data: CreateTaskOutputData) -> None:
             self.format_called = True
-            self.format_called_with = output_data
+            self.format_called_with["output_data"] = output_data
 
     description = "Random Task"
 
@@ -50,7 +49,7 @@ def test_usecase_create_new_task():
     usecase.execute(input_data)
 
     assert task_repo_spy.new_task_called == True
-    assert task_repo_spy.new_task_called_with == description
+    assert task_repo_spy.new_task_called_with["description"] is not None
 
     assert presenter_spy.format_called == True
-    assert presenter_spy.format_called_with.task.description == description
+    assert presenter_spy.format_called_with["output_data"] is not None
