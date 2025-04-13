@@ -7,7 +7,9 @@ from src.todo_clean.layer1.usecase.get_task import (
     GetTaskByIdOutputData,
     IGetTask,
 )
-from src.todo_clean.layer2.controller.create_task_controller import CreateTaskController
+from src.todo_clean.layer2.controller.get_task_by_id_controller import (
+    GetTaskByIdController,
+)
 
 
 class TaskRepoMock(ITaskRepo):
@@ -28,23 +30,22 @@ class TaskRepoMock(ITaskRepo):
 
 
 class GetTaskSpy(IGetTask):
-    def __init__(self, input_data: GetTaskByIdInputData, task_repo: ITaskRepo):
-        self.input_data = input_data
-        self.task_repo = task_repo
+    def __init__(self, task_repo: ITaskRepo):
+        pass
 
-    def execute(self) -> GetTaskByIdOutputData:
-        return GetTaskByIdOutputData(Task(1, ""))
+    def execute(self, input_data: GetTaskByIdInputData) -> GetTaskByIdOutputData:
+        return GetTaskByIdOutputData(Task(input_data.id_, ""))
 
 
-@mark.skip
 def test_controller_get_task_by_id():
-    controller = CreateTaskController()
+    id_ = 1
 
-    task_repo_spy = TaskRepoMock()
-    input_data = GetTaskByIdInputData(1)
-    usecase_spy = GetTaskSpy(input_data, task_repo_spy)
+    task_repo_mock = TaskRepoMock()
+    usecase_spy = GetTaskSpy(task_repo_mock)
 
-    output_data = controller.get_task_by_id(usecase_spy)
+    controller = GetTaskByIdController(usecase_spy)
 
-    assert usecase_spy.input_data == input_data
-    assert output_data.id_ == input_data.id_
+    task = controller.handle(id_)
+
+    assert isinstance(task, Task)
+    assert task.id_ == id_

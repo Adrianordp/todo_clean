@@ -1,35 +1,30 @@
 from abc import ABC, abstractmethod
 
 from src.todo_clean.layer0.entity.task import Task
-from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
-from src.todo_clean.layer1.usecase.create_task import (
-    CreateTaskInputData,
-    CreateTaskOutputData,
-    ICreateTask,
-)
+from src.todo_clean.layer1.usecase.get_task import GetTaskByIdInputData, IGetTask
 
 
 class IController(ABC):
     @abstractmethod
-    def __init__(self, usecase: ICreateTask):
+    def __init__(self, usecase: IGetTask):
         pass
 
     @abstractmethod
     def handle(
         self,
-        description: str,
+        id_: int,
     ) -> Task:
         pass
 
 
-class CreateTaskController(IController):
-    def __init__(self, usecase: ICreateTask):
+class GetTaskByIdController(IController):
+    def __init__(self, usecase: IGetTask):
         self.usecase = usecase
 
     def handle(
         self,
-        description: str,
+        id_: int,
     ) -> Task:
-        input_data = CreateTaskInputData(description)
+        input_data = GetTaskByIdInputData(id_)
         output_data = self.usecase.execute(input_data)
         return output_data.task
