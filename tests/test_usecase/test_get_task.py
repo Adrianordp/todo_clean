@@ -1,6 +1,6 @@
 from src.todo_clean.layer0.entity.task import Task
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
-from src.todo_clean.layer1.usecase.get_task import GetTask
+from src.todo_clean.layer1.usecase.get_task import GetTaskById, GetTaskByIdInputData
 
 
 def test_get_task():
@@ -28,7 +28,8 @@ def test_get_task():
 
     task_repo = SpyTaskRepo()
     target_id = 1
-    usecase = GetTask(target_id, task_repo)
-    task = usecase.execute()
-    assert task.id_ == target_id
-    assert task == task_repo.task
+    input_data = GetTaskByIdInputData(target_id)
+    usecase = GetTaskById(input_data, task_repo)
+    output_data = usecase.execute()
+    assert output_data.task.id_ == target_id
+    assert output_data.task == task_repo.task
