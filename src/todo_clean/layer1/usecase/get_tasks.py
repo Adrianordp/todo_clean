@@ -10,6 +10,12 @@ class GetTasksOutputData:
     tasks: list[ITask]
 
 
+class IGetTasksPresenter(ABC):
+    @abstractmethod
+    def format(self, output_data: GetTasksOutputData) -> dict:
+        pass
+
+
 class IGetTasks(ABC):
     @abstractmethod
     def execute(self) -> GetTasksOutputData:
