@@ -1,5 +1,14 @@
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
 from ...layer0.entity.task import Task
 from ..repository.i_task_repo import ITaskRepo
+
+
+class IGetTasks(ABC):
+    @abstractmethod
+    def execute(self) -> list[Task]:
+        pass
 
 
 class GetTasks:
