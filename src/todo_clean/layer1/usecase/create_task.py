@@ -15,22 +15,23 @@ class CreateTaskOutputData:
     task: Task
 
 
+class ICreateTaskPresenter(ABC):
+    @abstractmethod
+    def format(self, output_data: CreateTaskOutputData) -> dict:
+        pass
+
+
 class ICreateTask(ABC):
     @abstractmethod
     def __init__(
         self,
         task_repo: ITaskRepo,
+        presenter: ICreateTaskPresenter,
     ):
         pass
 
     @abstractmethod
     def execute(self, input_data: CreateTaskInputData) -> None:
-        pass
-
-
-class ICreateTaskPresenter(ABC):
-    @abstractmethod
-    def format(self, output_data: CreateTaskOutputData) -> dict:
         pass
 
 
