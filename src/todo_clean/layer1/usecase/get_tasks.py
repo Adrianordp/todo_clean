@@ -18,14 +18,16 @@ class IGetTasksPresenter(ABC):
 
 class IGetTasks(ABC):
     @abstractmethod
-    def execute(self) -> GetTasksOutputData:
+    def execute(self) -> None:
         pass
 
 
 class GetTasks:
-    def __init__(self, task_repo: ITaskRepo):
+    def __init__(self, task_repo: ITaskRepo, presenter: IGetTasksPresenter):
         self.task_repo = task_repo
+        self.presenter = presenter
 
-    def execute(self) -> GetTasksOutputData:
+    def execute(self) -> None:
         response = self.task_repo.get_tasks()
-        return GetTasksOutputData(response)
+        output_data = GetTasksOutputData(response)
+        self.presenter.format(output_data)
