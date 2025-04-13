@@ -24,7 +24,13 @@ class ICreateTask(ABC):
         pass
 
     @abstractmethod
-    def execute(self, input_data: CreateTaskInputData) -> CreateTaskOutputData:
+    def execute(self, input_data: CreateTaskInputData) -> None:
+        pass
+
+
+class ICreateTaskPresenter(ABC):
+    @abstractmethod
+    def format(self, output_data: CreateTaskOutputData) -> dict:
         pass
 
 
@@ -32,9 +38,12 @@ class CreateTask(ICreateTask):
     def __init__(
         self,
         task_repo: ITaskRepo,
+        presenter: ICreateTaskPresenter,
     ):
         self.task_repo = task_repo
+        self.presenter = presenter
 
-    def execute(self, input_data: CreateTaskInputData) -> CreateTaskOutputData:
+    def execute(self, input_data: CreateTaskInputData) -> None:
         task = self.task_repo.new_task(input_data.description)
-        return CreateTaskOutputData(task)
+        output_data = CreateTaskOutputData(task)
+        self.presenter.format(output_data)
