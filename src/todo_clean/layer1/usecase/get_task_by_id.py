@@ -15,24 +15,28 @@ class GetTaskByIdOutputData:
     task: ITask
 
 
+class IGetTaskByIdPresenter(ABC):
+    @abstractmethod
+    def format(self, output_data: GetTaskByIdOutputData) -> dict:
+        pass
+
+
 class IGetTask(ABC):
     @abstractmethod
-    def __init__(self, task_repo: ITaskRepo):
+    def __init__(self, task_repo: ITaskRepo, presenter: IGetTaskByIdPresenter):
         pass
 
     @abstractmethod
-    def execute(
-        self, input_data: GetTaskByIdInputData
-    ) -> GetTaskByIdOutputData:
+    def execute(self, input_data: GetTaskByIdInputData) -> None:
         pass
 
 
 class GetTaskById(IGetTask):
-    def __init__(self, task_repo: ITaskRepo):
+    def __init__(self, task_repo: ITaskRepo, presenter: IGetTaskByIdPresenter):
         self.task_repo = task_repo
+        self.presenter = presenter
 
-    def execute(
-        self, input_data: GetTaskByIdInputData
-    ) -> GetTaskByIdOutputData:
+    def execute(self, input_data: GetTaskByIdInputData) -> None:
         task = self.task_repo.get_task_by_id(input_data.id_)
-        return GetTaskByIdOutputData(task)
+        output_data = GetTaskByIdOutputData(task)
+        self.presenter.format(output_data)
