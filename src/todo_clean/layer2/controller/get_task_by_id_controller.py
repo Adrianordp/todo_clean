@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from src.todo_clean.layer0.entity.task import Task
-from src.todo_clean.layer1.usecase.get_task import GetTaskByIdInputData, IGetTask
+from src.todo_clean.layer1.usecase.get_task_by_id import GetTaskByIdInputData, IGetTask
 
 
 class IGetTaskByIdController(ABC):
