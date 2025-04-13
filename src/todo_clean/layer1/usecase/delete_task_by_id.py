@@ -14,20 +14,28 @@ class DeleteTaskOutputData:
     success: bool
 
 
+class IDeleteTaskPresenter(ABC):
+    @abstractmethod
+    def format(self, output_data: DeleteTaskOutputData) -> None:
+        pass
+
+
 class IDeleteTask(ABC):
     @abstractmethod
-    def __init__(self, task_repo: ITaskRepo):
+    def __init__(self, task_repo: ITaskRepo, presenter: IDeleteTaskPresenter):
         pass
 
     @abstractmethod
-    def execute(self, input_data: DeleteTaskInputData) -> DeleteTaskOutputData:
+    def execute(self, input_data: DeleteTaskInputData) -> None:
         pass
 
 
 class DeleteTask(IDeleteTask):
-    def __init__(self, task_repo: ITaskRepo):
+    def __init__(self, task_repo: ITaskRepo, presenter: IDeleteTaskPresenter):
         self.task_repo = task_repo
+        self.presenter = presenter
 
-    def execute(self, input_data: DeleteTaskInputData) -> DeleteTaskOutputData:
+    def execute(self, input_data: DeleteTaskInputData) -> None:
         success = self.task_repo.delete_task_by_id(input_data.id_)
-        return DeleteTaskOutputData(success)
+        output_data = DeleteTaskOutputData(success)
+        self.presenter.format(output_data)
