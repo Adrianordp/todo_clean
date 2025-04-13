@@ -13,7 +13,7 @@ class ICreateTaskController(ABC):
     def handle(
         self,
         description: str,
-    ) -> Task:
+    ) -> None:
         pass
 
 
@@ -24,7 +24,6 @@ class CreateTaskController(ICreateTaskController):
     def handle(
         self,
         description: str,
-    ) -> Task:
+    ) -> None:
         input_data = CreateTaskInputData(description)
-        output_data = self.usecase.execute(input_data)
-        return output_data.task
+        self.usecase.execute(input_data)
