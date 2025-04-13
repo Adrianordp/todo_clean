@@ -1,12 +1,7 @@
 from abc import ABC, abstractmethod
 
 from src.todo_clean.layer0.entity.task import Task
-from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
-from src.todo_clean.layer1.usecase.create_task import (
-    CreateTaskInputData,
-    CreateTaskOutputData,
-    ICreateTask,
-)
+from src.todo_clean.layer1.usecase.create_task import CreateTaskInputData, ICreateTask
 
 
 class IController(ABC):
