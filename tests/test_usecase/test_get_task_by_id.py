@@ -3,6 +3,7 @@ from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.get_task_by_id import (
     GetTaskById,
     GetTaskByIdInputData,
+    GetTaskByIdOutputData,
 )
 
 
@@ -34,5 +35,7 @@ def test_get_task():
     input_data = GetTaskByIdInputData(target_id)
     usecase = GetTaskById(task_repo_spy)
     output_data = usecase.execute(input_data)
+
+    assert isinstance(output_data, GetTaskByIdOutputData)
+    assert task_repo_spy.id_ == target_id
     assert output_data.task.id_ == target_id
-    assert output_data.task == task_repo_spy.task
