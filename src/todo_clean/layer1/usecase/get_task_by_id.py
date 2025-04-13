@@ -21,7 +21,9 @@ class IGetTask(ABC):
         pass
 
     @abstractmethod
-    def execute(self, input_data: GetTaskByIdInputData) -> GetTaskByIdOutputData:
+    def execute(
+        self, input_data: GetTaskByIdInputData
+    ) -> GetTaskByIdOutputData:
         pass
 
 
@@ -29,6 +31,8 @@ class GetTaskById(IGetTask):
     def __init__(self, task_repo: ITaskRepo):
         self.task_repo = task_repo
 
-    def execute(self, input_data: GetTaskByIdInputData) -> GetTaskByIdOutputData:
+    def execute(
+        self, input_data: GetTaskByIdInputData
+    ) -> GetTaskByIdOutputData:
         task = self.task_repo.get_task_by_id(input_data.id_)
         return GetTaskByIdOutputData(task)
