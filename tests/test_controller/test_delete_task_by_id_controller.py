@@ -1,8 +1,8 @@
 from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.delete_task_by_id import (
-    DeleteTaskInputData,
-    DeleteTaskOutputData,
+    DeleteTaskByIdInputData,
+    DeleteTaskByIdOutputData,
     IDeleteTaskById,
 )
 from src.todo_clean.layer2.controller.delete_task_by_id_controller import (
@@ -41,7 +41,9 @@ class DeleteTaskByIdSpy(IDeleteTaskById):
         self.init_called = True
         self.init_called_with["task_repo"] = task_repo
 
-    def execute(self, input_data: DeleteTaskInputData) -> DeleteTaskOutputData:
+    def execute(
+        self, input_data: DeleteTaskByIdInputData
+    ) -> DeleteTaskByIdOutputData:
         self.execute_called = True
         self.execute_called_with["input_data"] = input_data
 
@@ -61,6 +63,6 @@ def test_delete_task_by_id_controller():
 
     assert usecase_spy.execute_called is True
     assert isinstance(
-        usecase_spy.execute_called_with["input_data"], DeleteTaskInputData
+        usecase_spy.execute_called_with["input_data"], DeleteTaskByIdInputData
     )
     assert usecase_spy.execute_called_with["input_data"].id_ == id_

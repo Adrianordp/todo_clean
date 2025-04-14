@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from src.todo_clean.layer1.usecase.delete_task_by_id import (
-    DeleteTaskInputData,
+    DeleteTaskByIdInputData,
     IDeleteTaskById,
 )
 
@@ -21,5 +21,5 @@ class DeleteTaskByIdController(IDeleteTaskByIdController):
         self.usecase = usecase
 
     def handle(self, id_: int) -> None:
-        input_data = DeleteTaskInputData(id_)
+        input_data = DeleteTaskByIdInputData(id_)
         self.usecase.execute(input_data)

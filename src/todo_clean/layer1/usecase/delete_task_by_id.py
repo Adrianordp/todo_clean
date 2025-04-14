@@ -5,18 +5,18 @@ from ..repository.i_task_repo import ITaskRepo
 
 
 @dataclass
-class DeleteTaskInputData:
+class DeleteTaskByIdInputData:
     id_: int
 
 
 @dataclass
-class DeleteTaskOutputData:
+class DeleteTaskByIdOutputData:
     success: bool
 
 
 class IDeleteTaskByIdPresenter(ABC):
     @abstractmethod
-    def format(self, output_data: DeleteTaskOutputData) -> None:
+    def format(self, output_data: DeleteTaskByIdOutputData) -> None:
         pass
 
 
@@ -28,7 +28,7 @@ class IDeleteTaskById(ABC):
         pass
 
     @abstractmethod
-    def execute(self, input_data: DeleteTaskInputData) -> None:
+    def execute(self, input_data: DeleteTaskByIdInputData) -> None:
         pass
 
 
@@ -39,7 +39,7 @@ class DeleteTaskById(IDeleteTaskById):
         self.task_repo = task_repo
         self.presenter = presenter
 
-    def execute(self, input_data: DeleteTaskInputData) -> None:
+    def execute(self, input_data: DeleteTaskByIdInputData) -> None:
         success = self.task_repo.delete_task_by_id(input_data.id_)
-        output_data = DeleteTaskOutputData(success)
+        output_data = DeleteTaskByIdOutputData(success)
         self.presenter.format(output_data)
