@@ -1,4 +1,3 @@
-from src.todo_clean.layer0.entity.task import ITask
 from src.todo_clean.layer1.usecase.get_tasks import (
     GetTasksOutputData,
     IGetTasksPresenter,
