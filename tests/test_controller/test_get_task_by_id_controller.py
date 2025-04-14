@@ -3,7 +3,7 @@ from src.todo_clean.layer1.repository.i_task_repo import ITaskRepo
 from src.todo_clean.layer1.usecase.get_task_by_id import (
     GetTaskByIdInputData,
     GetTaskByIdOutputData,
-    IGetTask,
+    IGetTaskById,
 )
 from src.todo_clean.layer2.controller.get_task_by_id_controller import (
     GetTaskByIdController,
@@ -27,7 +27,7 @@ class TaskRepoSpy(ITaskRepo):
         pass
 
 
-class GetTaskSpy(IGetTask):
+class GetTaskByIdSpy(IGetTaskById):
     init_called = False
     init_called_with = {}
     execute_called = False
@@ -48,7 +48,7 @@ def test_controller_get_task_by_id():
     id_ = 1
 
     task_repo_spy = TaskRepoSpy()
-    usecase_spy = GetTaskSpy(task_repo_spy)
+    usecase_spy = GetTaskByIdSpy(task_repo_spy)
 
     controller = GetTaskByIdController(usecase_spy)
 

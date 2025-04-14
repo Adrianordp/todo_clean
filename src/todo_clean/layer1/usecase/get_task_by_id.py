@@ -21,7 +21,7 @@ class IGetTaskByIdPresenter(ABC):
         pass
 
 
-class IGetTask(ABC):
+class IGetTaskById(ABC):
     @abstractmethod
     def __init__(self, task_repo: ITaskRepo, presenter: IGetTaskByIdPresenter):
         pass
@@ -31,7 +31,7 @@ class IGetTask(ABC):
         pass
 
 
-class GetTaskById(IGetTask):
+class GetTaskById(IGetTaskById):
     def __init__(self, task_repo: ITaskRepo, presenter: IGetTaskByIdPresenter):
         self.task_repo = task_repo
         self.presenter = presenter
