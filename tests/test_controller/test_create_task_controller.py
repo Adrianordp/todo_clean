@@ -54,7 +54,7 @@ def test_controller_create_task():
     controller = CreateTaskController(usecase_spy)
     controller.handle(description)
 
-    assert usecase_spy.execute_called == True
+    assert usecase_spy.execute_called is True
     assert (
         usecase_spy.execute_called_with["input_data"].description
         == description

@@ -47,10 +47,10 @@ def test_get_task():
     usecase = GetTaskById(task_repo_spy, presenter_spy)
     usecase.execute(input_data)
 
-    assert task_repo_spy.get_task_by_id_called == True
+    assert task_repo_spy.get_task_by_id_called is True
     assert task_repo_spy.get_task_by_id_called_with["id"] == id_
 
-    assert presenter_spy.format_called == True
+    assert presenter_spy.format_called is True
     assert presenter_spy.format_called_with["output_data"] is not None
     assert isinstance(
         presenter_spy.format_called_with["output_data"], GetTaskByIdOutputData

@@ -48,7 +48,7 @@ def test_usecase_delete_task_by_id():
     assert task_repo_spy.delete_task_by_id_called
     assert task_repo_spy.delete_task_by_id_called_with["id_"] == id_
 
-    assert presenter_spy.format_called == True
+    assert presenter_spy.format_called is True
     assert presenter_spy.format_called_with["output_data"] is not None
     assert isinstance(
         presenter_spy.format_called_with["output_data"],
