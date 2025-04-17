@@ -29,8 +29,15 @@ class ICreateTaskRepository(ABC):
     """Interface for repository for creating a task."""
 
     @abstractmethod
-    def create_task(self, description: str) -> ITask:
-        """Create a task."""
+    def create_task(self, description: str) -> tuple[int, ITask]:
+        """Create a task.
+
+        Args:
+            description (str): The description of the task.
+
+        Returns:
+            tuple[int, ITask]: The id of the created task and the task entity.
+        """
 
 
 class ICreateTaskPresenter(ABC):
@@ -72,6 +79,6 @@ class CreateTask(ICreateTask):
         self.presenter = presenter
 
     def execute(self) -> None:
-        task = self.task_repo.create_task(self.request.description)
-        output_data = CreateTaskResponse(task.id_, task.description)
+        id_, task = self.task_repo.create_task(self.request.description)
+        output_data = CreateTaskResponse(id_, task.description)
         self.presenter.format(output_data)

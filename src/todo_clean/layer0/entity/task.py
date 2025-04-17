@@ -1,16 +1,22 @@
+"""
+entity/task.py
+
+Entity for task.
+"""
+
 from dataclasses import dataclass
 from typing import Protocol, runtime_checkable
 
 
 @runtime_checkable
 class ITask(Protocol):
-    id_: int
+    """Interface for task."""
+
     description: str
 
 
 @dataclass
 class Task(ITask):
-    id_: int
+    """Task class."""
+
     description: str
-    # title: str
-    # status: str

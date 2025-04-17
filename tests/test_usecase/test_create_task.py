@@ -16,10 +16,10 @@ class RepositoryStub(ICreateTaskRepository):
     new_task_called = False
     new_task_called_with = {}
 
-    def create_task(self, description: str) -> ITask:
+    def create_task(self, description: str) -> tuple[int, ITask]:
         self.new_task_called = True
         self.new_task_called_with["description"] = description
-        return Task(1, description)
+        return (1, Task(description))
 
 
 class PresenterSpy(ICreateTaskPresenter):

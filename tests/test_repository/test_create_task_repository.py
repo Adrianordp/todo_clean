@@ -21,12 +21,12 @@ def test_create_task_sqlite_repository(in_memory_db):
     """Test CreateTaskSqliteRepository"""
     task_repo = CreateTaskSqliteRepository(in_memory_db)
     description = "Test task"
-    task = Task(1, description)
+    task = Task(description)
     task_repo.create_task(description)
 
     with closing(in_memory_db.cursor()) as cursor:
         cursor.execute("SELECT * FROM tasks")
         result = cursor.fetchone()
 
-        assert result[0] == task.id_
+        assert result[0] == 1
         assert result[1] == task.description
