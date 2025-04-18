@@ -44,7 +44,7 @@ class ICreateTaskPresenter(ABC):
     """Presenter for creating task use case."""
 
     @abstractmethod
-    def format(self, output_data: CreateTaskResponse) -> dict:
+    def format(self, output_data: CreateTaskResponse) -> None:
         """Format output data for creating task use case."""
 
 
