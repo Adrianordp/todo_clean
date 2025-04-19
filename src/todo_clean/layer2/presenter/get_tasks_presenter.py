@@ -1,4 +1,4 @@
-from src.todo_clean.layer1.usecase.get_tasks import (
+from todo_clean.layer1.usecase.get_tasks import (
     GetTasksOutputData,
     IGetTasksPresenter,
 )

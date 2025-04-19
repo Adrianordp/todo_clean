@@ -3,8 +3,8 @@
 import sqlite3
 from contextlib import closing
 
-from src.todo_clean.layer0.entity.task import ITask, Task
-from src.todo_clean.layer1.usecase.create_task import ICreateTaskRepository
+from todo_clean.layer0.entity.task import ITask, Task
+from todo_clean.layer1.usecase.create_task import ICreateTaskRepository
 
 
 class CreateTaskSqliteRepository(ICreateTaskRepository):

@@ -4,9 +4,8 @@ presenter/create_task_presenter.py
 Presenter for creating task use case.
 """
 
-from dataclasses import dataclass
-
-from src.todo_clean.layer1.usecase.create_task import (
+from todo_clean.layer1.usecase.create_task import (
+    CreaTaskViewModel,
     CreateTaskResponse,
     ICreateTaskPresenter,
 )

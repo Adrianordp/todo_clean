@@ -3,8 +3,8 @@ presenter/create_task_presenter.py
 
 Presenter for creating task use case."""
 
-from src.todo_clean.layer1.usecase.create_task import CreateTaskResponse
-from src.todo_clean.layer2.presenter.create_task_presenter import (
+from todo_clean.layer1.usecase.create_task import CreateTaskResponse
+from todo_clean.layer2.presenter.create_task_presenter import (
     CreaTaskViewModel,
     CreateTaskGuiPresenter,
 )

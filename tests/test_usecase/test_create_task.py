@@ -1,7 +1,7 @@
 """Test use case for creating a task."""
 
-from src.todo_clean.layer0.entity.task import ITask, Task
-from src.todo_clean.layer1.usecase.create_task import (
+from todo_clean.layer0.entity.task import ITask, Task
+from todo_clean.layer1.usecase.create_task import (
     CreateTask,
     CreateTaskRequest,
     CreateTaskResponse,

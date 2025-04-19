@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.todo_clean.layer1.usecase.get_tasks import IGetTasks
+from todo_clean.layer1.usecase.get_tasks import IGetTasks
 
 
 class IGetTasksController(ABC):

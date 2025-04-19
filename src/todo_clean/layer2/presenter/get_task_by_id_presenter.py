@@ -1,5 +1,5 @@
-from src.todo_clean.layer0.entity.task import ITask
-from src.todo_clean.layer1.usecase.get_task_by_id import IGetTaskByIdPresenter
+from todo_clean.layer0.entity.task import ITask
+from todo_clean.layer1.usecase.get_task_by_id import IGetTaskByIdPresenter
 
 
 class GetTaskByIdGuiPresenter(IGetTaskByIdPresenter):

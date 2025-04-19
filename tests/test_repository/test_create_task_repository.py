@@ -1,10 +1,12 @@
+"""Test CreateTaskSqliteRepository."""
+
 import sqlite3
 from contextlib import closing
 
 import pytest
 
-from src.todo_clean.layer0.entity.task import Task
-from src.todo_clean.layer1.repository.create_task_repository import (
+from todo_clean.layer0.entity.task import Task
+from todo_clean.layer1.repository.create_task_repository import (
     CreateTaskSqliteRepository,
 )
 

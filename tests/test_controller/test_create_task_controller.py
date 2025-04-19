@@ -1,14 +1,14 @@
 """Test controller for creating a task."""
 
-from src.todo_clean.layer0.entity.task import ITask
-from src.todo_clean.layer1.usecase.create_task import (
+from todo_clean.layer0.entity.task import ITask
+from todo_clean.layer1.usecase.create_task import (
     CreateTaskRequest,
     CreateTaskResponse,
     ICreateTask,
     ICreateTaskPresenter,
     ICreateTaskRepository,
 )
-from src.todo_clean.layer2.controller.create_task_controller import (
+from todo_clean.layer2.controller.create_task_controller import (
     CreateTaskController,
 )
 

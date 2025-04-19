@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.todo_clean.layer1.usecase.delete_task_by_id import (
+from todo_clean.layer1.usecase.delete_task_by_id import (
     DeleteTaskByIdInputData,
     IDeleteTaskById,
 )
