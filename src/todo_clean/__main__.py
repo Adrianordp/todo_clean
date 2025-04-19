@@ -3,15 +3,15 @@
 import sqlite3
 from tkinter import Tk
 
-from todo_clean.layer1.repository.create_task_repository import (
-    CreateTaskSqliteRepository,
-)
 from todo_clean.layer1.usecase.create_task import CreateTask
 from todo_clean.layer2.controller.create_task_controller import (
     CreateTaskController,
 )
 from todo_clean.layer2.presenter.create_task_presenter import (
     CreateTaskGuiPresenter,
+)
+from todo_clean.layer3.repository.create_task_repository import (
+    CreateTaskSqliteRepository,
 )
 from todo_clean.layer3.view.tkinter_view import TkinterView
 

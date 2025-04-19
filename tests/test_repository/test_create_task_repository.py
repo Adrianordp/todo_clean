@@ -6,7 +6,7 @@ from contextlib import closing
 import pytest
 
 from todo_clean.layer0.entity.task import Task
-from todo_clean.layer1.repository.create_task_repository import (
+from todo_clean.layer3.repository.create_task_repository import (
     CreateTaskSqliteRepository,
 )
 
