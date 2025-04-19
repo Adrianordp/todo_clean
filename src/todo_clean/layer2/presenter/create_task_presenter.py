@@ -11,14 +11,6 @@ from todo_clean.layer1.usecase.create_task import (
 )
 
 
-@dataclass
-class CreaTaskViewModel:
-    """ViewModel for creating task use case."""
-
-    id: str
-    description: str
-
-
 class CreateTaskGuiPresenter(ICreateTaskPresenter):
     """GUI presenter for creating task use case."""
 

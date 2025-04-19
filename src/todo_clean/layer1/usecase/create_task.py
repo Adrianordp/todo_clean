@@ -40,16 +40,32 @@ class ICreateTaskRepository(ABC):
         """
 
 
+@dataclass
+class CreaTaskViewModel:
+    """ViewModel for creating task use case."""
+
+    id: str
+    description: str
+
+
 class ICreateTaskPresenter(ABC):
     """Presenter for creating task use case."""
+
+    view_model: CreaTaskViewModel
 
     @abstractmethod
     def format(self, output_data: CreateTaskResponse) -> None:
         """Format output data for creating task use case."""
 
+    def get_view_model(self) -> CreaTaskViewModel:
+        """Get view model for creating task use case."""
+        return self.view_model
+
 
 class ICreateTask(ABC):
     """Interface for use case for creating a task."""
+
+    presenter: ICreateTaskPresenter
 
     @abstractmethod
     def __init__(
@@ -62,6 +78,10 @@ class ICreateTask(ABC):
     @abstractmethod
     def execute(self, request: CreateTaskRequest) -> None:
         """Execute creating task use case."""
+
+    def get_presenter(self) -> ICreateTaskPresenter:
+        """Get presenter for creating task use case."""
+        return self.presenter
 
 
 class CreateTask(ICreateTask):
