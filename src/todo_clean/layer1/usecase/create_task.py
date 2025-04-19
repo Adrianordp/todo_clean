@@ -54,14 +54,13 @@ class ICreateTask(ABC):
     @abstractmethod
     def __init__(
         self,
-        request: CreateTaskRequest,
         task_repo: ICreateTaskRepository,
         presenter: ICreateTaskPresenter,
     ):
         pass
 
     @abstractmethod
-    def execute(self) -> None:
+    def execute(self, request: CreateTaskRequest) -> None:
         """Execute creating task use case."""
 
 
@@ -70,15 +69,13 @@ class CreateTask(ICreateTask):
 
     def __init__(
         self,
-        request: CreateTaskRequest,
         task_repo: ICreateTaskRepository,
         presenter: ICreateTaskPresenter,
     ):
-        self.request = request
         self.task_repo = task_repo
         self.presenter = presenter
 
-    def execute(self) -> None:
-        id_, task = self.task_repo.create_task(self.request.description)
+    def execute(self, request: CreateTaskRequest) -> None:
+        id_, task = self.task_repo.create_task(request.description)
         output_data = CreateTaskResponse(id_, task.description)
         self.presenter.format(output_data)

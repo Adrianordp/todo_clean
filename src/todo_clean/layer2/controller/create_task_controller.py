@@ -1,25 +1,21 @@
-from abc import ABC, abstractmethod
+"""
+controller/create_task_controller.py
+
+Controller for creating task use case."""
 
 from src.todo_clean.layer1.usecase.create_task import (
-    CreateTaskInputData,
+    CreateTaskRequest,
     ICreateTask,
 )
 
 
-class ICreateTaskController(ABC):
-    @abstractmethod
-    def __init__(self, usecase: ICreateTask):
-        pass
+class CreateTaskController:
+    """Controller for creating task use case."""
 
-    @abstractmethod
-    def handle(self, description: str) -> None:
-        pass
-
-
-class CreateTaskController(ICreateTaskController):
     def __init__(self, usecase: ICreateTask):
         self.usecase = usecase
 
     def handle(self, description: str) -> None:
-        input_data = CreateTaskInputData(description)
+        """Handle creating task use case."""
+        input_data = CreateTaskRequest(description)
         self.usecase.execute(input_data)
