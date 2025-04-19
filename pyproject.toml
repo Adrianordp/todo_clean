@@ -16,7 +16,7 @@ TODO app with clean architecture
 readme = "README.md"
 
 [project.optional-dependencies]
-dev = ["black", "isort", "pytest", "pytest-cov"]
+dev = ["black", "isort", "pytest", "pytest-cov", "pylint"]
 
 [project.scripts]
 todo_clean = "todo_clean.__main__:main"
@@ -27,3 +27,6 @@ line-length = 79
 [tool.isort]
 profile = "black"
 line_length = 79
+
+[tool.pylint.'MAIN']
+source-roots = "src"
