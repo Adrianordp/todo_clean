@@ -41,8 +41,8 @@ def test_usecase_create_new_task():
     repository_stub = RepositoryStub()
     presenter_spy = PresenterSpy()
 
-    usecase = CreateTask(request, repository_stub, presenter_spy)
-    usecase.execute()
+    usecase = CreateTask(repository_stub, presenter_spy)
+    usecase.execute(request)
 
     assert repository_stub.new_task_called is True
     assert repository_stub.new_task_called_with["description"] == description
