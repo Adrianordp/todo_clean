@@ -12,7 +12,7 @@ from todo_clean.layer2.presenter.create_task_presenter import (
 
 def test_create_task_gui_presenter():
     """Test presenter for creating task use case."""
-    view_model = CreaTaskViewModel("1", "Random task description")
+    view_model = CreaTaskViewModel(1, "Random task description")
     create_task_response = CreateTaskResponse(1, "Random task description")
     presenter = CreateTaskGuiPresenter()
     presenter.format(create_task_response)

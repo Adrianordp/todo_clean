@@ -44,7 +44,7 @@ class ICreateTaskRepository(ABC):
 class CreaTaskViewModel:
     """ViewModel for creating task use case."""
 
-    id: str
+    id: int
     description: str
 
 

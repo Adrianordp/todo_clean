@@ -18,6 +18,6 @@ class CreateTaskGuiPresenter(ICreateTaskPresenter):
 
     def format(self, output_data: CreateTaskResponse) -> None:
         idoutput_data = CreaTaskViewModel(
-            str(output_data.id_), output_data.description
+            output_data.id_, output_data.description
         )
         CreateTaskGuiPresenter.view_model = idoutput_data
