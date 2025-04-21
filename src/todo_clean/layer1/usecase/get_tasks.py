@@ -1,33 +1,58 @@
+"""
+usecase/get_tasks.py
+
+Use case for getting tasks.
+"""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from ...layer0.entity.task import ITask
-from ..repository.i_task_repo import ITaskRepo
+from todo_clean.layer0.entity.task import ITask
 
 
 @dataclass
-class GetTasksOutputData:
-    tasks: list[ITask]
+class GetTasksResponse:
+    """Output data for get tasks use case."""
+
+    task_list: list[tuple[int, str]]
+
+
+class IGetTasksRepository(ABC):
+    """Interface for repository for creating a task."""
+
+    @abstractmethod
+    def get_tasks(self) -> list[tuple[int, ITask]]:
+        """Get tasks from repository."""
 
 
 class IGetTasksPresenter(ABC):
+    """Presenter for get tasks use case."""
+
     @abstractmethod
-    def format(self, output_data: GetTasksOutputData) -> dict:
-        pass
+    def format(self, response: GetTasksResponse) -> None:
+        """Format output data for get tasks use case."""
 
 
 class IGetTasks(ABC):
+    """Interface for use case for getting tasks."""
+
     @abstractmethod
     def execute(self) -> None:
-        pass
+        """Execute get tasks use case."""
 
 
 class GetTasks:
-    def __init__(self, task_repo: ITaskRepo, presenter: IGetTasksPresenter):
-        self.task_repo = task_repo
+    """Use case for getting tasks."""
+
+    def __init__(
+        self, repository: IGetTasksRepository, presenter: IGetTasksPresenter
+    ):
+        self.repository = repository
         self.presenter = presenter
 
     def execute(self) -> None:
-        response = self.task_repo.get_tasks()
-        output_data = GetTasksOutputData(response)
+        """Execute get tasks use case."""
+        tasks = self.repository.get_tasks()
+        response = [(task[0], task[1].description) for task in tasks]
+        output_data = GetTasksResponse(response)
         self.presenter.format(output_data)
