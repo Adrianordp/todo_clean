@@ -1,50 +1,55 @@
-# from todo_clean.layer0.entity.task import ITask, Task
-# from todo_clean.layer1.repository.i_task_repo import ITaskRepo
-# from todo_clean.layer1.usecase.get_tasks import (
-#     GetTasks,
-#     GetTasksOutputData,
-#     IGetTasksPresenter,
-# )
+"""Test use case for getting tasks."""
+
+from todo_clean.layer0.entity.task import ITask, Task
+from todo_clean.layer1.usecase.get_tasks import (
+    GetTasks,
+    GetTasksResponse,
+    IGetTasksPresenter,
+    IGetTasksRepository,
+)
 
 
-# def test_get_tasks():
+class RepositoryStub(IGetTasksRepository):
+    """Spy for get tasks repository."""
 
-#     class TaskRepoSpy(ITaskRepo):
-#         get_tasks_called = False
+    def __init__(self, fake_data: list[tuple[int, ITask]]):
+        self.get_tasks_called = False
+        self.fake_data = fake_data
 
-#         def create_task(self, description: str) -> ITask:
-#             pass
+    def get_tasks(self) -> list[tuple[int, ITask]]:
+        self.get_tasks_called = True
+        return self.fake_data
 
-#         def get_task_by_id(self, id_: int) -> ITask:
-#             pass
+    def set_fake_data(self, fake_data: list[tuple[int, ITask]]) -> None:
+        """Set fake data for repository."""
+        self.fake_data = fake_data
 
-#         def get_tasks(self) -> list[ITask]:
-#             self.get_tasks_called = True
 
-#         def edit_task_by_id(self, id_: int) -> ITask:
-#             pass
+class PresenterSpy(IGetTasksPresenter):
+    """Spy for get tasks presenter."""
 
-#         def delete_task_by_id(self, id_: int) -> bool:
-#             pass
+    format_called = False
+    format_called_with = {}
 
-#     class GetTasksPresenterSpy(IGetTasksPresenter):
-#         format_called = False
-#         format_called_with = {}
+    def format(self, response: GetTasksResponse):
+        self.format_called = True
+        self.format_called_with["response"] = response
 
-#         def format(self, output_data: GetTasksOutputData) -> None:
-#             self.format_called = True
-#             self.format_called_with["output_data"] = output_data
 
-#     task_repo_spy = TaskRepoSpy()
-#     presenter_spy = GetTasksPresenterSpy()
+def test_usecase_get_tasks():
+    """Test use case for getting tasks."""
+    fake_data = [(1, Task("Random ITask"))]
+    repository_stub = RepositoryStub(fake_data)
+    presenter_spy = PresenterSpy()
 
-#     usecase = GetTasks(task_repo_spy, presenter_spy)
-#     usecase.execute()
+    response = GetTasksResponse(
+        [(fake_data[0][0], fake_data[0][1].description)]
+    )
 
-#     assert task_repo_spy.get_tasks_called is True
+    usecase = GetTasks(repository_stub, presenter_spy)
+    usecase.execute()
 
-#     assert presenter_spy.format_called is True
-#     assert presenter_spy.format_called_with["output_data"] is not None
-#     assert isinstance(
-#         presenter_spy.format_called_with["output_data"], GetTasksOutputData
-#     )
+    assert repository_stub.get_tasks_called is True
+
+    assert presenter_spy.format_called is True
+    assert presenter_spy.format_called_with["response"] == response
