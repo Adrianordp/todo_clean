@@ -30,7 +30,7 @@ class ICreateTaskRepository(ABC):
 
     @abstractmethod
     def create_task(self, description: str) -> tuple[int, ITask]:
-        """Create a task.
+        """Create a task in repository.
 
         Args:
             description (str): The description of the task.
