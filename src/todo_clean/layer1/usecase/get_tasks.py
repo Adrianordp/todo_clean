@@ -51,6 +51,8 @@ class IGetTasksPresenter(ABC):
     Presenter for get tasks use case.
     """
 
+    view_model: GetTasksViewModel
+
     @abstractmethod
     def format(self, response: GetTasksResponse) -> None:
         """
@@ -58,6 +60,15 @@ class IGetTasksPresenter(ABC):
 
         :param GetTasksResponse response: The response for get tasks use case.
         """
+
+    @classmethod
+    def get_view_model(cls) -> GetTasksViewModel:
+        """
+        Get view model for get tasks use case.
+
+        :return GetTasksViewModel: The view model for get tasks use case.
+        """
+        return cls.view_model
 
 
 class IGetTasks(ABC):
