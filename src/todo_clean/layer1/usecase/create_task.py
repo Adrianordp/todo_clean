@@ -65,9 +65,6 @@ class CreaTaskViewModel:
 class ICreateTaskPresenter(ABC):
     """
     Presenter for creating task use case.
-
-    :param CreaTaskViewModel view_model: The view model for creating task use
-    case.
     """
 
     view_model: CreaTaskViewModel
@@ -81,13 +78,14 @@ class ICreateTaskPresenter(ABC):
         case.
         """
 
-    def get_view_model(self) -> CreaTaskViewModel:
+    @classmethod
+    def get_view_model(cls) -> CreaTaskViewModel:
         """
         Get view model for creating task use case.
 
         :return CreaTaskViewModel: The view model for creating task use case.
         """
-        return self.view_model
+        return cls.view_model
 
 
 class ICreateTask(ABC):
