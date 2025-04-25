@@ -15,10 +15,10 @@ class GetTasksViewModel:
     """
     ViewModel for get tasks use case.
 
-    :param str description: The description of the task.
+    :param str tasks: The list of tasks in JSON format.
     """
 
-    description: str
+    tasks: str
 
 
 @dataclass
