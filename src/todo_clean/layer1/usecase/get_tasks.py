@@ -11,38 +11,74 @@ from todo_clean.layer0.entity.task import ITask
 
 
 @dataclass
+class GetTasksViewModel:
+    """
+    ViewModel for get tasks use case.
+
+    :param str description: The description of the task.
+    """
+
+    description: str
+
+
+@dataclass
 class GetTasksResponse:
-    """Output data for get tasks use case."""
+    """
+    Output data for get tasks use case.
+
+    :param list[tuple[int, str]] task_list: The list of tasks.
+    """
 
     task_list: list[tuple[int, str]]
 
 
 class IGetTasksRepository(ABC):
-    """Interface for repository for creating a task."""
+    """
+    Interface for repository for creating a task.
+    """
 
     @abstractmethod
-    def get_tasks(self) -> list[tuple[int, ITask]]:
-        """Get tasks from repository."""
+    def get_tasks(self) -> list[ITask]:
+        """
+        Get tasks from repository.
+
+        :return list[ITask]: The list of tasks.
+        """
 
 
 class IGetTasksPresenter(ABC):
-    """Presenter for get tasks use case."""
+    """
+    Presenter for get tasks use case.
+    """
 
     @abstractmethod
     def format(self, response: GetTasksResponse) -> None:
-        """Format output data for get tasks use case."""
+        """
+        Format output data for get tasks use case.
+
+        :param GetTasksResponse response: The response for get tasks use case.
+        """
 
 
 class IGetTasks(ABC):
-    """Interface for use case for getting tasks."""
+    """
+    Interface for use case for getting tasks.
+    """
 
     @abstractmethod
     def execute(self) -> None:
-        """Execute get tasks use case."""
+        """
+        Execute get tasks use case.
+        """
 
 
 class GetTasks:
-    """Use case for getting tasks."""
+    """
+    Use case for getting tasks.
+
+    :param IGetTasksRepository repository: The repository for getting tasks.
+    :param IGetTasksPresenter presenter: The presenter for getting tasks.
+    """
 
     def __init__(
         self, repository: IGetTasksRepository, presenter: IGetTasksPresenter
@@ -51,8 +87,10 @@ class GetTasks:
         self.presenter = presenter
 
     def execute(self) -> None:
-        """Execute get tasks use case."""
+        """
+        Execute get tasks use case.
+        """
         tasks = self.repository.get_tasks()
-        response = [(task[0], task[1].description) for task in tasks]
+        response = [(task.id_, task.description) for task in tasks]
         output_data = GetTasksResponse(response)
         self.presenter.format(output_data)

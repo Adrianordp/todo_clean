@@ -1,4 +1,6 @@
-"""Implementation of ICreateTaskRepository."""
+"""
+Implementation of ICreateTaskRepository.
+"""
 
 import sqlite3
 from contextlib import closing
@@ -8,19 +10,23 @@ from todo_clean.layer1.usecase.create_task import ICreateTaskRepository
 
 
 class CreateTaskSqliteRepository(ICreateTaskRepository):
-    """Implementation of ICreateTaskRepository for SQLite."""
+    """
+    Implementation of ICreateTaskRepository for SQLite.
+
+    :param sqlite3.Connection conn: The connection to the SQLite database.
+    """
 
     def __init__(self, conn: sqlite3.Connection):
         self.conn = conn
 
-    def create_task(self, description: str) -> tuple[int, ITask]:
+    def create_task(self, description: str) -> ITask:
         self._create_table()
         with closing(self.conn.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO tasks (description) VALUES (?)", (description,)
             )
             self.conn.commit()
-            return (cursor.lastrowid, Task(description))
+            return Task(cursor.lastrowid, description)
 
     def _create_table(self):
         with closing(self.conn.cursor()) as cursor:

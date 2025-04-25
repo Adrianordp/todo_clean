@@ -1,14 +1,28 @@
+"""
+Presenter for get tasks use case.
+"""
+
+import json
+
 from todo_clean.layer1.usecase.get_tasks import (
-    GetTasksOutputData,
+    GetTasksResponse,
+    GetTasksViewModel,
     IGetTasksPresenter,
 )
 
 
 class GetTasksGuiPresenter(IGetTasksPresenter):
-    def format(self, output_data: GetTasksOutputData) -> dict:
-        response = {}
-        for task in output_data.tasks:
-            response[task.id_] = {
-                "description": task.description,
+    """
+    Presenter for get tasks use case.
+    """
+
+    view_model: GetTasksViewModel
+
+    def format(self, response: GetTasksResponse) -> None:
+        output_data = {}
+        for task in response:
+            output_data[task[0]] = {
+                "description": task[1],
             }
-        return response
+        output_str = json.dumps(output_data)
+        GetTasksGuiPresenter.view_model = GetTasksViewModel(output_str)

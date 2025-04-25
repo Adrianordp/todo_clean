@@ -1,4 +1,6 @@
-"""Test GetTasksSqliteRepository."""
+"""
+Test GetTasksSqliteRepository.
+"""
 
 import sqlite3
 from contextlib import closing
@@ -10,9 +12,28 @@ from todo_clean.layer3.repository.get_tasks_repository import (
 )
 
 
+@pytest.fixture(name="tasks")
+def fixture_tasks() -> list[dict[str, int | str]]:
+    """
+    Fixture for tasks.
+
+    :return list[dict[str, int | str]]: The list of tasks.
+    """
+    return [
+        {"id": 1, "description": "Test task 1"},
+        {"id": 2, "description": "Test task 2"},
+    ]
+
+
 @pytest.fixture(name="in_memory_db")
-def fixture_in_memory_db():
-    """Create an in-memory SQLite database"""
+def fixture_in_memory_db(tasks: list[dict[str, int | str]]):
+    """
+    Create an in-memory SQLite database
+
+    :param list[dict[str, int | str]] tasks: The list of tasks
+
+    :return sqlite3.Connection: The connection to the SQLite database.
+    """
     conn = sqlite3.connect(":memory:")
     with closing(conn.cursor()) as cursor:
         cursor.execute(
@@ -26,13 +47,15 @@ def fixture_in_memory_db():
         conn.commit()
 
         cursor.execute(
-            "INSERT INTO tasks (description) VALUES (?)", ("Test task 1",)
+            "INSERT INTO tasks (description) VALUES (?)",
+            (tasks[0]["description"],),
         )
 
         conn.commit()
 
         cursor.execute(
-            "INSERT INTO tasks (description) VALUES (?)", ("Test task 2",)
+            "INSERT INTO tasks (description) VALUES (?)",
+            (tasks[1]["description"],),
         )
 
         conn.commit()
@@ -40,8 +63,16 @@ def fixture_in_memory_db():
     conn.close()
 
 
-def test_create_task_sqlite_repository(in_memory_db):
-    """Test CreateTaskSqliteRepository"""
+def test_create_task_sqlite_repository(
+    in_memory_db: sqlite3.Connection, tasks: list[dict[str, int | str]]
+):
+    """
+    Test CreateTaskSqliteRepository
+
+    :param sqlite3.Connection in_memory_db: The connection to the SQLite
+    database.
+    :param list[dict[str, int | str]] tasks: The list of tasks
+    """
 
     repository = GetTasksSqliteRepository(in_memory_db)
     repository.get_tasks()
@@ -51,6 +82,9 @@ def test_create_task_sqlite_repository(in_memory_db):
         result = cursor.fetchall()
 
         assert len(result) == 2
-        assert result[0][1] == "Test task 1"
-        assert result[1][1] == "Test task 2"
-        assert result == [(1, "Test task 1"), (2, "Test task 2")]
+        assert result[0][1] == tasks[0]["description"]
+        assert result[1][1] == tasks[1]["description"]
+        assert result == [
+            (tasks[0]["id"], tasks[0]["description"]),
+            (tasks[1]["id"], tasks[1]["description"]),
+        ]

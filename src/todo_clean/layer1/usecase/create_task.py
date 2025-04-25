@@ -12,72 +12,109 @@ from ...layer0.entity.task import ITask
 
 @dataclass
 class CreateTaskRequest:
-    """Input data for creating task use case."""
+    """
+    Input data for creating task use case.
+
+    :param str description: The description of the task.
+    """
 
     description: str
 
 
 @dataclass
 class CreateTaskResponse:
-    """Output data for creating task use case."""
+    """
+    Response for creating task use case.
+
+    :param int id_: The id of the task.
+    :param str description: The description of the task.
+    """
 
     id_: int
     description: str
 
 
 class ICreateTaskRepository(ABC):
-    """Interface for repository for creating a task."""
+    """
+    Interface for repository for creating a task.
+    """
 
     @abstractmethod
-    def create_task(self, description: str) -> tuple[int, ITask]:
+    def create_task(self, description: str) -> ITask:
         """Create a task in repository.
 
-        Args:
-            description (str): The description of the task.
+        :param str description: The description of the task.
 
-        Returns:
-            tuple[int, ITask]: The id of the created task and the task entity.
+        :return ITask: The created task.
         """
 
 
 @dataclass
 class CreaTaskViewModel:
-    """ViewModel for creating task use case."""
+    """
+    ViewModel for creating task use case.
+
+    :param int id: The id of the task.
+    :param str description: The description of the task.
+    """
 
     id: int
     description: str
 
 
 class ICreateTaskPresenter(ABC):
-    """Presenter for creating task use case."""
+    """
+    Presenter for creating task use case.
+
+    :param CreaTaskViewModel view_model: The view model for creating task use
+    case.
+    """
 
     view_model: CreaTaskViewModel
 
     @abstractmethod
-    def format(self, output_data: CreateTaskResponse) -> None:
-        """Format output data for creating task use case."""
+    def format(self, response: CreateTaskResponse) -> None:
+        """
+        Format response for creating task use case.
+
+        :param CreateTaskResponse response: The response for creating task use
+        case.
+        """
 
     def get_view_model(self) -> CreaTaskViewModel:
-        """Get view model for creating task use case."""
+        """
+        Get view model for creating task use case.
+
+        :return CreaTaskViewModel: The view model for creating task use case.
+        """
         return self.view_model
 
 
 class ICreateTask(ABC):
-    """Interface for use case for creating a task."""
+    """
+    Interface for use case for creating a task.
 
-    presenter: ICreateTaskPresenter
+    :param ICreateTaskRepository task_repo: The repository for creating a task.
+    :param ICreateTaskPresenter presenter: The presenter for creating a task.
+    """
 
     @abstractmethod
     def __init__(
         self,
-        task_repo: ICreateTaskRepository,
+        repository: ICreateTaskRepository,
         presenter: ICreateTaskPresenter,
     ):
-        pass
+        self.repository = repository
+        self.presenter = presenter
 
     @abstractmethod
     def execute(self, request: CreateTaskRequest) -> None:
-        """Execute creating task use case."""
+        """
+        Execute creating task use case.
+
+        :param CreateTaskRequest request: The request for creating task use
+        case.
+        """
 
     def get_presenter(self) -> ICreateTaskPresenter:
         """Get presenter for creating task use case."""
@@ -89,13 +126,13 @@ class CreateTask(ICreateTask):
 
     def __init__(
         self,
-        task_repo: ICreateTaskRepository,
+        repository: ICreateTaskRepository,
         presenter: ICreateTaskPresenter,
     ):
-        self.task_repo = task_repo
+        self.repository = repository
         self.presenter = presenter
 
     def execute(self, request: CreateTaskRequest) -> None:
-        id_, task = self.task_repo.create_task(request.description)
-        output_data = CreateTaskResponse(id_, task.description)
-        self.presenter.format(output_data)
+        task = self.repository.create_task(request.description)
+        response = CreateTaskResponse(task.id_, task.description)
+        self.presenter.format(response)

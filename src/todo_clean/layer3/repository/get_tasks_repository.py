@@ -1,4 +1,6 @@
-"""Implementation of IGetTasksRepository."""
+"""
+Implementation of IGetTasksRepository for SQLite.
+"""
 
 import sqlite3
 from contextlib import closing
@@ -8,13 +10,16 @@ from todo_clean.layer1.usecase.get_tasks import IGetTasksRepository
 
 
 class GetTasksSqliteRepository(IGetTasksRepository):
-    """Implementation of IGetTasksRepository for SQLite."""
+    """
+    Implementation of IGetTasksRepository for SQLite.
+
+    :param sqlite3.Connection conn: The connection to the SQLite database.
+    """
 
     def __init__(self, conn: sqlite3.Connection):
         self.conn = conn
 
-    def get_tasks(self) -> list[tuple[int, ITask]]:
-        """Get tasks from SQLite repository."""
+    def get_tasks(self) -> list[ITask]:
         with closing(self.conn.cursor()) as cursor:
             cursor.execute("SELECT id, description FROM tasks")
-            return [Task(row[1]) for row in cursor.fetchall()]
+            return [Task(row[0], row[1]) for row in cursor.fetchall()]
