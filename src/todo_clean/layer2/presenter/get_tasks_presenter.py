@@ -20,7 +20,7 @@ class GetTasksGuiPresenter(IGetTasksPresenter):
 
     def format(self, response: GetTasksResponse) -> None:
         output_data = {}
-        for task in response:
+        for task in response.task_list:
             output_data[task[0]] = {
                 "description": task[1],
             }
