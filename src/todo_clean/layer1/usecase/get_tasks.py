@@ -74,7 +74,19 @@ class IGetTasksPresenter(ABC):
 class IGetTasks(ABC):
     """
     Interface for use case for getting tasks.
+
+    :param IGetTasksRepository repository: The repository for getting tasks.
+    :param IGetTasksPresenter presenter: The presenter for getting tasks.
     """
+
+    @abstractmethod
+    def __init__(
+        self,
+        repository: IGetTasksRepository,
+        presenter: IGetTasksPresenter,
+    ):
+        self.repository = repository
+        self.presenter = presenter
 
     @abstractmethod
     def execute(self) -> None:
@@ -82,8 +94,12 @@ class IGetTasks(ABC):
         Execute get tasks use case.
         """
 
+    def get_presenter(self) -> IGetTasksPresenter:
+        """Get presenter for creating task use case."""
+        return self.presenter
 
-class GetTasks:
+
+class GetTasks(IGetTasks):
     """
     Use case for getting tasks.
 
