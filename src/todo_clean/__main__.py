@@ -3,28 +3,37 @@
 import sqlite3
 from tkinter import Tk
 
-from todo_clean.layer1.usecase.create_task import CreateTask
-from todo_clean.layer2.controller.create_task_controller import (
+from todo_clean.layer1 import CreateTask, GetTasks
+from todo_clean.layer2 import (
     CreateTaskController,
-)
-from todo_clean.layer2.presenter.create_task_presenter import (
     CreateTaskGuiPresenter,
+    GetTasksController,
+    GetTasksGuiPresenter,
 )
-from todo_clean.layer3.repository.create_task_repository import (
+from todo_clean.layer3 import (
     CreateTaskSqliteRepository,
+    GetTasksSqliteRepository,
+    TkinterView,
 )
-from todo_clean.layer3.view.tkinter_view import TkinterView
 
 
 def main():
     """Main function."""
     conn = sqlite3.connect(":memory:")
+
     create_task_repo = CreateTaskSqliteRepository(conn)
     create_task_presenter = CreateTaskGuiPresenter()
     create_task_use_case = CreateTask(create_task_repo, create_task_presenter)
-    controller = CreateTaskController(create_task_use_case)
+    create_task_controller = CreateTaskController(create_task_use_case)
+
+    get_tasks_repo = GetTasksSqliteRepository(conn)
+    get_tasks_presenter = GetTasksGuiPresenter()
+    get_tasks_use_case = GetTasks(get_tasks_repo, get_tasks_presenter)
+    get_tasks_controller = GetTasksController(get_tasks_use_case)
+
     root = TkinterView(Tk())
-    root.set_create_task_controller(controller)
+    root.set_create_task_controller(create_task_controller)
+    root.set_get_tasks_controller(get_tasks_controller)
     root.run()
 
 
