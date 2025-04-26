@@ -40,6 +40,8 @@ class IDeleteTaskByIdRepository(ABC):
         """
         Delete task from repository.
 
+        :param int id_: The id of the task.
+
         :return bool: The success of the operation.
         """
 
