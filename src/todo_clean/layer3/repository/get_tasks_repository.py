@@ -21,5 +21,8 @@ class GetTasksSqliteRepository(IGetTasksRepository):
 
     def get_tasks(self) -> list[ITask]:
         with closing(self.conn.cursor()) as cursor:
-            cursor.execute("SELECT id, description FROM tasks")
+            try:
+                cursor.execute("SELECT id, description FROM tasks")
+            except sqlite3.OperationalError:
+                return []
             return [Task(row[0], row[1]) for row in cursor.fetchall()]
