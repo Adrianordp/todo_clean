@@ -2,7 +2,8 @@
 Tkinter view for the TODO Clean application.
 """
 
-from tkinter import Button, Entry, Tk
+import json
+from tkinter import Button, Entry, Listbox, Tk
 
 from todo_clean.layer2 import CreateTaskController, GetTasksController
 
@@ -32,10 +33,8 @@ class TkinterView:
         )
         self.create_task_button.pack()
 
-        self.get_tasks_button = Button(
-            self.root, text="Get Tasks", command=self.handle_get_tasks
-        )
-        self.get_tasks_button.pack()
+        self.task_list = Listbox(self.root)
+        self.task_list.pack()
 
     def handle_create_task(self) -> None:
         """
@@ -44,10 +43,8 @@ class TkinterView:
         description = self.create_task_entry.get()
 
         self.create_task_controller.handle(description)
-        presenter = self.create_task_controller.usecase.get_presenter()
-        view_model = presenter.get_view_model()
 
-        print(view_model.description)
+        self.handle_get_tasks()
 
     def handle_get_tasks(self) -> None:
         """
@@ -56,8 +53,12 @@ class TkinterView:
         self.get_tasks_controller.handle()
         presenter = self.get_tasks_controller.usecase.get_presenter()
         view_model = presenter.get_view_model()
-
-        print(view_model.tasks)
+        tasks_json: dict = json.loads(view_model.tasks)
+        tasks_list = [
+            description["description"] for _, description in tasks_json.items()
+        ]
+        self.task_list.delete(0, "end")
+        self.task_list.insert(0, *tasks_list)
 
     def run(self) -> None:
         """
