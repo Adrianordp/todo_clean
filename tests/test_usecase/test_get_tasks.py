@@ -64,3 +64,5 @@ def test_usecase_get_tasks():
 
     assert presenter_spy.format_called is True
     assert presenter_spy.format_called_with["response"] == response
+
+    assert usecase.get_presenter() == presenter_spy
