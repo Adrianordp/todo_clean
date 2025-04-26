@@ -34,7 +34,7 @@ class GetTasksResponse:
 
 class IGetTasksRepository(ABC):
     """
-    Interface for repository for creating a task.
+    Interface for repository for getting tasks.
     """
 
     @abstractmethod
@@ -95,7 +95,7 @@ class IGetTasks(ABC):
         """
 
     def get_presenter(self) -> IGetTasksPresenter:
-        """Get presenter for creating task use case."""
+        """Get presenter for get tasks use case."""
         return self.presenter
 
 
