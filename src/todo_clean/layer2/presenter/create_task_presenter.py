@@ -16,8 +16,6 @@ class CreateTaskGuiPresenter(ICreateTaskPresenter):
 
     view_model: CreaTaskViewModel
 
-    def format(self, output_data: CreateTaskResponse) -> None:
-        idoutput_data = CreaTaskViewModel(
-            output_data.id_, output_data.description
-        )
+    def format(self, response: CreateTaskResponse) -> None:
+        idoutput_data = CreaTaskViewModel(response.id_, response.description)
         CreateTaskGuiPresenter.view_model = idoutput_data
