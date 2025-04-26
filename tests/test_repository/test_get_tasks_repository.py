@@ -63,6 +63,18 @@ def fixture_in_memory_db(tasks: list[dict[str, int | str]]):
     conn.close()
 
 
+@pytest.fixture(name="empty_in_memory_db")
+def fixture_empty_in_memory_db():
+    """
+    Create an empty in-memory SQLite database
+
+    :return sqlite3.Connection: The connection to the SQLite database.
+    """
+    conn = sqlite3.connect(":memory:")
+    yield conn
+    conn.close()
+
+
 def test_create_task_sqlite_repository(
     in_memory_db: sqlite3.Connection, tasks: list[dict[str, int | str]]
 ):
@@ -75,16 +87,29 @@ def test_create_task_sqlite_repository(
     """
 
     repository = GetTasksSqliteRepository(in_memory_db)
-    repository.get_tasks()
+    actual_tasks = repository.get_tasks()
 
-    with closing(in_memory_db.cursor()) as cursor:
-        cursor.execute("SELECT * FROM tasks")
-        result = cursor.fetchall()
+    assert len(tasks) == 2
 
-        assert len(result) == 2
-        assert result[0][1] == tasks[0]["description"]
-        assert result[1][1] == tasks[1]["description"]
-        assert result == [
-            (tasks[0]["id"], tasks[0]["description"]),
-            (tasks[1]["id"], tasks[1]["description"]),
-        ]
+    assert actual_tasks[0].id_ == tasks[0]["id"]
+    assert actual_tasks[0].description == tasks[0]["description"]
+
+    assert actual_tasks[1].id_ == tasks[1]["id"]
+    assert actual_tasks[1].description == tasks[1]["description"]
+
+
+def test_create_task_sqlite_repository_unhappy(
+    empty_in_memory_db: sqlite3.Connection,
+):
+    """
+    Test CreateTaskSqliteRepository
+
+    :param sqlite3.Connection empty_in_memory_db: The connection to the SQLite
+    database.
+    """
+
+    repository = GetTasksSqliteRepository(empty_in_memory_db)
+    tasks = repository.get_tasks()
+
+    assert len(tasks) == 0
+    assert tasks == []
