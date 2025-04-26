@@ -30,3 +30,4 @@ line_length = 79
 
 [tool.pylint.'MAIN']
 source-roots = "src"
+disable = "too-few-public-methods"
