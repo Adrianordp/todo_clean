@@ -79,3 +79,5 @@ class TkinterView:
         Set the get tasks controller.
         """
         self.get_tasks_controller = controller
+
+        self.handle_get_tasks()
