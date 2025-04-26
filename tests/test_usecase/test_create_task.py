@@ -17,13 +17,15 @@ class RepositoryStub(ICreateTaskRepository):
     Stub for creating task repository.
     """
 
-    new_task_called = False
-    new_task_called_with = {}
+    def __init__(self, fake_task: ITask = Task(1, "Random ITask")):
+        self.new_task_called = False
+        self.new_task_called_with = {}
+        self.fake_task = fake_task
 
     def create_task(self, description: str) -> ITask:
         self.new_task_called = True
         self.new_task_called_with["description"] = description
-        return Task(1, description)
+        return self.fake_task
 
 
 class PresenterSpy(ICreateTaskPresenter):
@@ -43,10 +45,12 @@ def test_usecase_create_new_task():
     """
     Test use case for creating a new task.
     """
-    description = "Random ITask"
+    description = "Random Task"
+    id_ = 2
+    task = Task(id_, description)
 
     request = CreateTaskRequest(description)
-    repository_stub = RepositoryStub()
+    repository_stub = RepositoryStub(task)
     presenter_spy = PresenterSpy()
 
     usecase = CreateTask(repository_stub, presenter_spy)
@@ -56,8 +60,15 @@ def test_usecase_create_new_task():
     assert repository_stub.new_task_called_with["description"] == description
 
     assert presenter_spy.format_called is True
+    assert isinstance(
+        presenter_spy.format_called_with["response"], CreateTaskResponse
+    )
+    assert presenter_spy.format_called_with["response"].id_ == id_
+    assert (
+        presenter_spy.format_called_with["response"].description == description
+    )
     assert presenter_spy.format_called_with["response"] == CreateTaskResponse(
-        1, description
+        id_, description
     )
 
     assert usecase.get_presenter() == presenter_spy
