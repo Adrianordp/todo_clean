@@ -1,4 +1,6 @@
-"""Test controller for creating a task."""
+"""
+Test controller for creating a task.
+"""
 
 from todo_clean.layer0.entity.task import ITask
 from todo_clean.layer1.usecase.create_task import (
@@ -13,22 +15,27 @@ from todo_clean.layer2.controller.create_task_controller import (
 )
 
 
-class CreateTaskRepositoryDummy(ICreateTaskRepository):
-    """Dummy for creating task repository."""
+class RepositoryDummy(ICreateTaskRepository):
+    """
+    Dummy for creating task repository.
+    """
 
-    def create_task(self, description: str) -> tuple[int, ITask]:
+    def create_task(self, description: str) -> ITask:
         pass
 
 
-class CreateNewTaskSpy(ICreateTask):
-    """Spy for creating task use case."""
+class UseCaseSpy(ICreateTask):
+    """
+    Spy for creating task use case.
+
+    :param ICreateTaskRepository task_repo: The repository for creating a task.
+    :param ICreateTaskPresenter presenter: The presenter for creating a task.
+    """
 
     execute_called = False
     execute_called_with = {}
 
-    def __init__(
-        self, task_repo: ICreateTaskRepository, presenter: ICreateTaskPresenter
-    ):
+    def __init__(self, _: ICreateTaskRepository, __: ICreateTaskPresenter):
         pass
 
     def execute(self, request: CreateTaskRequest) -> None:
@@ -39,17 +46,17 @@ class CreateNewTaskSpy(ICreateTask):
 class PresenterDummy(ICreateTaskPresenter):
     """Dummy for creating task presenter."""
 
-    def format(self, output_data: CreateTaskResponse) -> None:
+    def format(self, response: CreateTaskResponse) -> None:
         pass
 
 
 def test_controller_create_task():
     """Test controller for creating a task."""
     description = "Random task description"
-    task_repo_stub = CreateTaskRepositoryDummy()
+    task_repo_stub = RepositoryDummy()
     presenter_dummy = PresenterDummy()
 
-    usecase_spy = CreateNewTaskSpy(task_repo_stub, presenter_dummy)
+    usecase_spy = UseCaseSpy(task_repo_stub, presenter_dummy)
     controller = CreateTaskController(usecase_spy)
     controller.handle(description)
 
