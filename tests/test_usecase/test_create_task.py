@@ -59,3 +59,5 @@ def test_usecase_create_new_task():
     assert presenter_spy.format_called_with["response"] == CreateTaskResponse(
         1, description
     )
+
+    assert usecase.get_presenter() == presenter_spy
