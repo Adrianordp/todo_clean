@@ -20,9 +20,18 @@ class DeleteTaskByIdSqliteRepository(IDeleteTaskByIdRepository):
 
     def delete_task_by_id(self, id_: int) -> bool:
         with closing(self.conn.cursor()) as cursor:
+            if (
+                cursor.execute(
+                    "SELECT * FROM tasks WHERE id = ?", (id_,)
+                ).fetchone()
+                is None
+            ):
+                return False
             try:
                 cursor.execute("DELETE FROM tasks WHERE id = ?", (id_,))
                 self.conn.commit()
             except sqlite3.OperationalError:
+                return False
+            except sqlite3.InterfaceError:
                 return False
         return True
