@@ -21,6 +21,8 @@ class CreateTaskController:
         self.usecase = usecase
 
     def handle(self, description: str) -> None:
-        """Handle creating task use case."""
-        input_data = CreateTaskRequest(description)
-        self.usecase.execute(input_data)
+        """
+        Handle creating task use case.
+        """
+        request = CreateTaskRequest(description)
+        self.usecase.execute(request)
