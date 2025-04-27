@@ -12,7 +12,9 @@ from todo_clean.layer1.usecase.create_task import (
 
 
 class CreateTaskGuiPresenter(ICreateTaskPresenter):
-    """GUI presenter for creating task use case."""
+    """
+    GUI presenter for creating task use case.
+    """
 
     view_model: CreaTaskViewModel
 
