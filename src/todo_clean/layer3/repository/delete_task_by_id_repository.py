@@ -29,6 +29,6 @@ class DeleteTaskByIdSqliteRepository(IDeleteTaskByIdRepository):
                 self.conn.commit()
             except sqlite3.OperationalError:
                 return False
-            except sqlite3.InterfaceError:
-                return False
+            # except sqlite3.InterfaceError:
+            #     return False
         return True

@@ -99,7 +99,7 @@ def test_create_task_sqlite_repository(
     assert result[0][1] == tasks[1]["description"]
 
 
-def test_create_task_sqlite_repository_uhappy(
+def test_create_task_sqlite_repository_unhappy(
     empty_in_memory_db: sqlite3.Connection,
 ):
     """
@@ -112,5 +112,25 @@ def test_create_task_sqlite_repository_uhappy(
 
     task_repo = DeleteTaskByIdSqliteRepository(empty_in_memory_db)
     success = task_repo.delete_task_by_id(id_)
+
+    assert success is False
+
+
+def test_create_task_sqlite_repository_invalid_id(
+    in_memory_db: sqlite3.Connection,
+):
+    """
+    Test CreateTaskSqliteRepository
+
+    :param sqlite3.Connection in_memory_db: The connection to the SQLite
+    database.
+    """
+    id_ = 10000
+
+    task_repo = DeleteTaskByIdSqliteRepository(in_memory_db)
+    success = task_repo.delete_task_by_id(id_)
+
+    with closing(in_memory_db.cursor()) as cursor:
+        cursor.execute("SELECT * FROM tasks")
 
     assert success is False

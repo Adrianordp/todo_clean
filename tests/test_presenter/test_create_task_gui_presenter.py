@@ -21,6 +21,4 @@ def test_create_task_gui_presenter():
     presenter.format(create_task_response)
 
     assert isinstance(presenter.view_model, CreaTaskViewModel)
-    assert presenter.view_model.id == view_model.id
-    assert presenter.view_model.description == view_model.description
-    assert presenter.view_model == view_model
+    assert presenter.get_view_model() == view_model

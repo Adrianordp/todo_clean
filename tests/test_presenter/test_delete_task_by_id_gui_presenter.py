@@ -18,7 +18,7 @@ def test_delete_task_by_id_gui_presenter():
     presenter.format(create_task_response)
 
     assert isinstance(presenter.view_model, DeleteTaskByIdViewModel)
-    assert presenter.view_model == view_model
+    assert presenter.get_view_model() == view_model
 
 
 def test_delete_task_by_id_gui_presenter_unhappy():
@@ -31,4 +31,4 @@ def test_delete_task_by_id_gui_presenter_unhappy():
     presenter.format(create_task_response)
 
     assert isinstance(presenter.view_model, DeleteTaskByIdViewModel)
-    assert presenter.view_model == view_model
+    assert presenter.get_view_model() == view_model
