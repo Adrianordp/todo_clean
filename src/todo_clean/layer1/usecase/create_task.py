@@ -96,7 +96,6 @@ class ICreateTask(ABC):
     :param ICreateTaskPresenter presenter: The presenter for creating a task.
     """
 
-    @abstractmethod
     def __init__(
         self,
         repository: ICreateTaskRepository,
@@ -121,14 +120,6 @@ class ICreateTask(ABC):
 
 class CreateTask(ICreateTask):
     """Use case for creating a task."""
-
-    def __init__(
-        self,
-        repository: ICreateTaskRepository,
-        presenter: ICreateTaskPresenter,
-    ):
-        self.repository = repository
-        self.presenter = presenter
 
     def execute(self, request: CreateTaskRequest) -> None:
         task = self.repository.create_task(request.description)

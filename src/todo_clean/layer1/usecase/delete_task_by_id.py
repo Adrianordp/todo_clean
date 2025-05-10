@@ -90,7 +90,6 @@ class IDeleteTaskById(ABC):
     :param IDeleteTaskByIdPresenter presenter: The presenter for deleting task.
     """
 
-    @abstractmethod
     def __init__(
         self,
         repository: IDeleteTaskByIdRepository,
@@ -121,14 +120,6 @@ class DeleteTaskById(IDeleteTaskById):
     task.
     :param IDeleteTaskByIdPresenter presenter: The presenter for deleting task.
     """
-
-    def __init__(
-        self,
-        repository: IDeleteTaskByIdRepository,
-        presenter: IDeleteTaskByIdPresenter,
-    ):
-        self.repository = repository
-        self.presenter = presenter
 
     def execute(self, request: DeleteTaskByIdRequest) -> None:
         """

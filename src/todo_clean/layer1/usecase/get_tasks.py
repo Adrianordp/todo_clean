@@ -79,7 +79,6 @@ class IGetTasks(ABC):
     :param IGetTasksPresenter presenter: The presenter for getting tasks.
     """
 
-    @abstractmethod
     def __init__(
         self,
         repository: IGetTasksRepository,
@@ -106,12 +105,6 @@ class GetTasks(IGetTasks):
     :param IGetTasksRepository repository: The repository for getting tasks.
     :param IGetTasksPresenter presenter: The presenter for getting tasks.
     """
-
-    def __init__(
-        self, repository: IGetTasksRepository, presenter: IGetTasksPresenter
-    ):
-        self.repository = repository
-        self.presenter = presenter
 
     def execute(self) -> None:
         """
